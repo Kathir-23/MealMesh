@@ -6,6 +6,7 @@ import { generateToken, hashPassword, comparePassword } from './utils/auth.js';
 import { validateDonation, validateContact } from './middleware/validation.js';
 import logger from './utils/logger.js';
 import { connectDB } from './db.js';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const app = express();
 
@@ -146,6 +147,44 @@ app.post('/api/contact', validateContact, async (req, res) => {
   } catch (error) {
     logger.error('Contact submission error', error);
     res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Chatbot Route
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message) {
+      return res.status(400).json({ message: 'Message is required' });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ message: 'Gemini API key is not configured' });
+    }
+
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+
+    const prompt = `You are a helpful AI assistant for the website "Meal-Meash". 
+Meal-Meash is a platform designed to reduce food waste and help those in need by connecting food donors (restaurants, individuals, catering services) with organizations (NGOs, shelters, food banks) that can distribute the food to the hungry.
+Key features of the site include:
+- A user can register as either a "Donor" or an "Organization".
+- Donors can list food donations (items, quantity, pickup time, location).
+- Organizations can browse available donations, accept them, and update status to "Distributed".
+- The contact details for Meal-Meash are: Phone: 9150191012, Email: kathirkrish100@gmail.com.
+
+User's message: "${message}"
+
+Please respond helpfully and concisely to the user's message as the official Meal-Meash AI Assistant. You should have a friendly, encouraging, and professional tone.
+`;
+
+    const result = await model.generateContent(prompt);
+    const responseText = result.response.text();
+
+    res.json({ reply: responseText });
+  } catch (error) {
+    logger.error('Chat error', error);
+    res.status(500).json({ message: 'Failed to get chat response' });
   }
 });
 

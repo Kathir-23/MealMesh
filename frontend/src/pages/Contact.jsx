@@ -140,13 +140,13 @@ const Contact = () => {
           <div className="p-6 bg-white rounded-lg shadow-md">
             <div className="text-emerald-900 text-2xl mb-3">📞</div>
             <h3 className="text-lg font-semibold mb-2">Phone</h3>
-            <p className="text-gray-600">+91 9677605417</p>
+            <p className="text-gray-600">9150191012</p>
           </div>
           
           <div className="p-6 bg-white rounded-lg shadow-md">
             <div className="text-emerald-900 text-2xl mb-3">✉️</div>
             <h3 className="text-lg font-semibold mb-2">Email</h3>
-            <p className="text-gray-600">contact@mealmesh.com</p>
+            <p className="text-gray-600">kathirkrish100@gmail.com</p>
           </div>
         </div>
       </motion.div>

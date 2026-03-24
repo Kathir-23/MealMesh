@@ -14,6 +14,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Profile from './pages/Profile';
 import ErrorBoundary from './components/ErrorBoundary';
 import FoodSafety from './pages/FoodSafety';
+import Chatbot from './components/Chatbot';
 // Uncomment as you implement these features:
 // import Analytics from './pages/Analytics';
 // import DonationMap from './pages/DonationMap';
@@ -41,6 +42,7 @@ function App() {
         {/* <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} /> */}
         {/* <Route path="/donation-map" element={<DonationMap />} /> */}
       </Routes>
+      <Chatbot />
     </BrowserRouter>
     </AuthProvider>
     </ErrorBoundary>
