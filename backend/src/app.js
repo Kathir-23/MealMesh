@@ -40,25 +40,34 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Updated CORS configuration for all environments
+// Robust CORS configuration for development and production
 const corsOptions = {
   origin: function (origin, callback) {
+    if (!origin) {
+      return callback(null, true);
+    }
 
     const allowedOrigins = [
       'http://localhost:5173',
+      'http://127.0.0.1:5173',
       'https://mealmesh.vercel.app',
       'https://kathir-23.github.io'
     ];
     
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, origin);  // Return the specific origin instead of wildcard
+    const isAllowed = allowedOrigins.includes(origin) ||
+      origin.endsWith('.github.io') ||
+      origin.endsWith('.vercel.app') ||
+      origin.includes('localhost');
+
+    if (isAllowed) {
+      callback(null, origin);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With']
 };
 
 app.use(cors(corsOptions));
