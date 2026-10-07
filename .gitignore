@@ -3,3 +3,7 @@ frontend/.env
 backend/node_modules
 frontend/node_modules
 .vercel
+*.log
+backend/*.log
+backend/*.txt
+backend/vercel_*.html

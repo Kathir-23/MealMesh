@@ -30,13 +30,24 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+// Ensure database connection for incoming requests (crucial for serverless environments)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+  } catch (err) {
+    logger.error('Database connection error in request middleware:', err);
+  }
+  next();
+});
+
 // Updated CORS configuration for all environments
 const corsOptions = {
   origin: function (origin, callback) {
 
     const allowedOrigins = [
       'http://localhost:5173',
-      'https://mealmesh.vercel.app'
+      'https://mealmesh.vercel.app',
+      'https://kathir-23.github.io'
     ];
     
     if (!origin || allowedOrigins.includes(origin)) {
@@ -95,7 +106,7 @@ app.post('/api/auth/register', async (req, res) => {
     });
   } catch (error) {
     logger.error('Registration error:', error);
-    res.status(500).json({ message: 'Server error during registration' });
+    res.status(500).json({ message: 'Server error during registration', error: error.message });
   }
 });
 

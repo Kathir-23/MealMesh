@@ -7,8 +7,8 @@ dotenv.config();
 let cachedConnection = null;
 
 export const connectDB = async () => {
-  if (cachedConnection) {
-    return cachedConnection;
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
   }
 
   try {
