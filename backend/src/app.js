@@ -66,6 +66,16 @@ app.use(cors(corsOptions));
 // Make sure OPTIONS requests are handled properly
 app.options('*', cors(corsOptions));
 
+// Root Route
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'MealMesh Backend API is operational',
+    version: '1.0.0',
+    health: '/api/health',
+    status: 'online'
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', environment: process.env.NODE_ENV });
 });

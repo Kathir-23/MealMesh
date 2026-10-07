@@ -23,7 +23,7 @@ function App() {
   return (
     <ErrorBoundary>
     <AuthProvider>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Nav />
       <Routes>
         <Route path="/auth/login" element={<Login />} />
