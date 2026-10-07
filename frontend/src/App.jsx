@@ -37,6 +37,8 @@ function App() {
         <Route path="/organizations" element={<Organizations />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/food-safety" element={<FoodSafety />} />
+        {/* Fallback route to catch any mismatched URLs and avoid blank screens */}
+        <Route path="*" element={<Landing />} />
         
         {/* Uncomment as you implement these pages */}
         {/* <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} /> */}
