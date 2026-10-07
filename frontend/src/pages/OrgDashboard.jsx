@@ -45,8 +45,8 @@ const OrgDashboard = () => {
         if (response.ok) {
           const data = await response.json();
           const available = data.filter(d => d.status === 'Available');
-          const accepted = data.filter(d => d.status === 'Accepted' && d.organization === user.id);
-          const distributed = data.filter(d => d.status === 'Distributed' && d.organization === user.id);
+          const accepted = data.filter(d => d.status === 'Accepted' && (d.organization?._id === user.id || d.organization === user.id));
+          const distributed = data.filter(d => d.status === 'Distributed' && (d.organization?._id === user.id || d.organization === user.id));
           
           let totalPeopleServed = 0;
           distributed.forEach(donation => {
